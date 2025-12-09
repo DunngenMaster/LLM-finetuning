@@ -1,0 +1,53 @@
+experiment:
+  name: "llm-observability-summarization"
+  run_name_prefix: "t5-small-cnn"
+  seed: 42
+
+mlflow:
+  tracking_uri: "http://localhost:5000"   
+  experiment_name: "llm-observability-summarization"
+
+model:
+  model_name: "t5-small"
+  tokenizer_name: "t5-small"
+  cache_dir: null                         
+  gradient_checkpointing: true
+
+data:
+  dataset_name: "cnn_dailymail"
+  dataset_config_name: "3.0.0"                                            
+  text_column: "article"
+  summary_column: "highlights"
+  max_train_samples: 5000                  
+  max_eval_samples: 1000
+  max_input_length: 512
+  max_target_length: 128
+
+training:
+  num_epochs: 3
+  max_steps: null                           
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 3e-4
+  weight_decay: 0.01
+  warmup_steps: 500
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_epsilon: 1e-8
+  fp16: true
+  logging_steps: 50
+  eval_steps: 500
+  save_steps: 500
+  max_grad_norm: 1.0
+
+generation:
+  num_beams: 4
+  max_new_tokens: 128
+  min_new_tokens: 10
+  length_penalty: 1.0
+  no_repeat_ngram_size: 3
+
+paths:
+  output_dir: "./models/checkpoints"
+  local_run_dir: "./logs"                   

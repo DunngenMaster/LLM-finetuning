@@ -1,0 +1,33 @@
+data:
+  outputs_dir: "./logs/evaluation_outputs"
+  file_pattern: "eval_outputs_run_*.jsonl"
+  max_samples: 5000
+
+labels:
+  classes: ["GOOD", "OFF_TOPIC", "UNSAFE"]
+  unsafe_keywords:
+    - "kill"
+    - "suicide"
+    - "bomb"
+    - "attack"
+  off_topic_heuristics:
+    - "I am just an AI"
+    - "As a language model"
+
+features:
+  type: "tfidf"           
+  max_features: 20000
+  ngram_range: [1, 2]
+  lowercase: true
+  stop_words: "english"
+
+classifier:
+  type: "logreg"          
+  C: 1.0
+  class_weight: "balanced"
+  max_iter: 200
+
+training:
+  validation_split: 0.2
+  seed: 42
+  save_dir: "./models/quality"
