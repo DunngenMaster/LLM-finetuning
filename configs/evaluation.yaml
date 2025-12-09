@@ -1,0 +1,38 @@
+experiment:
+  name: "llm-observability-summarization-eval"
+
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_name: "llm-observability-summarization"
+
+model:
+  model_name_or_path: null                 
+  tokenizer_name: "t5-small"
+  cache_dir: null
+
+data:
+  dataset_name: "cnn_dailymail"
+  dataset_config_name: "3.0.0"
+  text_column: "article"
+  summary_column: "highlights"
+  max_eval_samples: 1000
+  max_input_length: 512
+  max_target_length: 128
+
+evaluation:
+  batch_size: 8
+  num_beams: 4
+  max_new_tokens: 128
+  length_penalty: 1.0
+  no_repeat_ngram_size: 3
+  measure_latency: true
+  latency_repeats: 1                         
+  log_detailed_outputs: true                
+
+quality:
+  enable_quality_metrics: true               
+  quality_classifier_path: "./models/quality/classifier.pkl"
+  vectorizer_path: "./models/quality/vectorizer.pkl"
+
+paths:
+  outputs_dir: "./logs/evaluation_outputs"   
